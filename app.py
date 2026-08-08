@@ -27,6 +27,10 @@ def get_credentials():
 @st.cache_resource
 def get_client(url, token):
     """Create and return a Turso client."""
+    # The sync client turns libsql:// into a websocket (wss://) that Turso
+    # rejects. Switching to https:// makes it use HTTP, which works.
+    if url.startswith("libsql://"):
+        url = url.replace("libsql://", "https://", 1)
     return libsql_client.create_client_sync(url=url, auth_token=token)
 
 
