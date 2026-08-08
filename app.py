@@ -143,15 +143,15 @@ st.markdown(
     """
     <style>
     /* App background */
-    .stApp { background-color: #EEF1F6; }
+    .stApp { background-color: #FDF2F8; }
 
     /* Card look for every bordered container */
     div[data-testid="stVerticalBlockBorderWrapper"] {
         background: #FFFFFF;
-        border: 1px solid #E5E7EB;
+        border: 1px solid #F3D6E4;
         border-radius: 16px;
         padding: 6px 10px;
-        box-shadow: 0 1px 3px rgba(17, 24, 39, 0.06);
+        box-shadow: 0 1px 3px rgba(131, 24, 67, 0.07);
     }
 
     /* Page title */
@@ -159,10 +159,21 @@ st.markdown(
         text-align: center;
         font-size: 2.4rem;
         font-weight: 800;
-        color: #111827;
+        color: #831843;
         letter-spacing: -0.5px;
         margin: 0.2rem 0 1.4rem 0;
     }
+
+    /* Row of paper icons (one icon per count) */
+    .icon-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        min-height: 40px;
+        margin: 0.5rem 0 0.2rem 0;
+    }
+    .icon-row svg { width: 30px; height: 30px; }
 
     /* Card text */
     .card-title {
@@ -171,14 +182,14 @@ st.markdown(
         font-weight: 700;
         letter-spacing: 1.5px;
         text-transform: uppercase;
-        color: #6B7280;
+        color: #A25C86;
         margin: 0.4rem 0 0.2rem 0;
     }
     .card-number {
         text-align: center;
         font-size: 4rem;
         font-weight: 800;
-        color: #4F46E5;
+        color: #DB2777;
         line-height: 1.1;
         margin: 0 0 0.8rem 0;
     }
@@ -187,7 +198,7 @@ st.markdown(
     .panel-title {
         font-size: 1.1rem;
         font-weight: 800;
-        color: #111827;
+        color: #831843;
         margin: 0.2rem 0 0.8rem 0;
     }
     .panel-label {
@@ -195,11 +206,11 @@ st.markdown(
         font-weight: 700;
         letter-spacing: 1px;
         text-transform: uppercase;
-        color: #6B7280;
+        color: #A25C86;
         margin: 0.8rem 0 0.2rem 0;
     }
     .total-box {
-        background: #EEF1F6;
+        background: #FCE7F3;
         border-radius: 12px;
         padding: 0.6rem;
         text-align: center;
@@ -208,7 +219,7 @@ st.markdown(
     .total-number {
         font-size: 2.4rem;
         font-weight: 800;
-        color: #4F46E5;
+        color: #DB2777;
         margin: 0;
     }
 
@@ -224,6 +235,31 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# Small paper icons drawn with inline SVG (no image files needed).
+# UNUSED = a blank clean sheet. USED = a sheet with written lines on it.
+UNUSED_ICON = (
+    '<svg viewBox="0 0 24 24" fill="none" stroke="#DB2777" stroke-width="1.6" '
+    'stroke-linecap="round" stroke-linejoin="round">'
+    '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>'
+    '<path d="M14 2v6h6"/></svg>'
+)
+USED_ICON = (
+    '<svg viewBox="0 0 24 24" fill="none" stroke="#DB2777" stroke-width="1.6" '
+    'stroke-linecap="round" stroke-linejoin="round">'
+    '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>'
+    '<path d="M14 2v6h6"/>'
+    '<line x1="8" y1="9" x2="11" y2="9"/>'
+    '<line x1="8" y1="13" x2="16" y2="13"/>'
+    '<line x1="8" y1="17" x2="16" y2="17"/></svg>'
+)
+
+
+def icon_row(icon_svg, count, max_icons=60):
+    """Return HTML that shows the paper icon repeated `count` times."""
+    shown = min(max(count, 0), max_icons)   # never below 0, and cap for safety
+    return f'<div class="icon-row">{icon_svg * shown}</div>'
+
+
 st.markdown('<div class="page-title">Paper Counter</div>', unsafe_allow_html=True)
 
 # ------------------------------------------------------------------
@@ -237,6 +273,7 @@ with left_area:
     # ---------------- Used Paper card ----------------
     with used_col:
         with st.container(border=True):
+            st.markdown(icon_row(USED_ICON, st.session_state.used_paper), unsafe_allow_html=True)
             st.markdown('<p class="card-title">Used Paper</p>', unsafe_allow_html=True)
             st.markdown(
                 f'<p class="card-number">{st.session_state.used_paper}</p>',
@@ -270,6 +307,7 @@ with left_area:
     # ---------------- Unused Paper card ----------------
     with unused_col:
         with st.container(border=True):
+            st.markdown(icon_row(UNUSED_ICON, st.session_state.unused_paper), unsafe_allow_html=True)
             st.markdown('<p class="card-title">Unused Paper</p>', unsafe_allow_html=True)
             st.markdown(
                 f'<p class="card-number">{st.session_state.unused_paper}</p>',
