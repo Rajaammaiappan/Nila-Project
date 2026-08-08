@@ -137,34 +137,94 @@ if "loaded" not in st.session_state:
     st.session_state.loaded = True
 
 # ------------------------------------------------------------------
-# Simple black-and-white styling
+# Styling (self-contained colors, so it looks the same in any theme)
 # ------------------------------------------------------------------
 st.markdown(
     """
     <style>
-    .card-title   { text-align:center; font-size:1.4rem; font-weight:700; color:#000; margin-bottom:0.4rem; }
-    .card-number  { text-align:center; font-size:4rem;  font-weight:700; color:#000; margin:0.4rem 0 1rem 0; }
-    .panel-title  { font-size:1.2rem; font-weight:700; color:#000; margin-bottom:0.6rem; }
-    .panel-label  { font-size:0.9rem; color:#000; margin:0.6rem 0 0.1rem 0; }
-    .total-number { font-size:2.6rem; font-weight:700; color:#000; text-align:center; margin:0; }
+    /* App background */
+    .stApp { background-color: #EEF1F6; }
+
+    /* Card look for every bordered container */
+    div[data-testid="stVerticalBlockBorderWrapper"] {
+        background: #FFFFFF;
+        border: 1px solid #E5E7EB;
+        border-radius: 16px;
+        padding: 6px 10px;
+        box-shadow: 0 1px 3px rgba(17, 24, 39, 0.06);
+    }
+
+    /* Page title */
+    .page-title {
+        text-align: center;
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: #111827;
+        letter-spacing: -0.5px;
+        margin: 0.2rem 0 1.4rem 0;
+    }
+
+    /* Card text */
+    .card-title {
+        text-align: center;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #6B7280;
+        margin: 0.4rem 0 0.2rem 0;
+    }
+    .card-number {
+        text-align: center;
+        font-size: 4rem;
+        font-weight: 800;
+        color: #4F46E5;
+        line-height: 1.1;
+        margin: 0 0 0.8rem 0;
+    }
+
+    /* Right info panel */
+    .panel-title {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: #111827;
+        margin: 0.2rem 0 0.8rem 0;
+    }
+    .panel-label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #6B7280;
+        margin: 0.8rem 0 0.2rem 0;
+    }
+    .total-box {
+        background: #EEF1F6;
+        border-radius: 12px;
+        padding: 0.6rem;
+        text-align: center;
+        margin-top: 0.3rem;
+    }
+    .total-number {
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: #4F46E5;
+        margin: 0;
+    }
+
+    /* Buttons */
     .stButton > button {
-        border:1px solid #000;
-        border-radius:8px;
-        background:#fff;
-        color:#000;
-        font-size:1.4rem;
-        font-weight:700;
-        padding:0.3rem 0;
+        border-radius: 10px;
+        font-size: 1.3rem;
+        font-weight: 700;
+        padding: 0.35rem 0;
     }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-st.markdown(
-    '<h2 style="text-align:center;color:#000;">Paper Counter</h2>',
-    unsafe_allow_html=True,
-)
+st.markdown('<div class="page-title">Paper Counter</div>', unsafe_allow_html=True)
 
 # ------------------------------------------------------------------
 # Layout: two big cards on the left, a narrow info panel on the right
@@ -176,8 +236,7 @@ with left_area:
 
     # ---------------- Used Paper card ----------------
     with used_col:
-        card = st.container(border=True)
-        with card:
+        with st.container(border=True):
             st.markdown('<p class="card-title">Used Paper</p>', unsafe_allow_html=True)
             st.markdown(
                 f'<p class="card-number">{st.session_state.used_paper}</p>',
@@ -185,7 +244,7 @@ with left_area:
             )
             plus_col, minus_col = st.columns(2)
 
-            if plus_col.button("+", key="used_plus", use_container_width=True):
+            if plus_col.button("+", key="used_plus", use_container_width=True, type="primary"):
                 st.session_state.used_paper += 1
                 save_data(
                     client,
@@ -210,8 +269,7 @@ with left_area:
 
     # ---------------- Unused Paper card ----------------
     with unused_col:
-        card = st.container(border=True)
-        with card:
+        with st.container(border=True):
             st.markdown('<p class="card-title">Unused Paper</p>', unsafe_allow_html=True)
             st.markdown(
                 f'<p class="card-number">{st.session_state.unused_paper}</p>',
@@ -219,7 +277,7 @@ with left_area:
             )
             plus_col, minus_col = st.columns(2)
 
-            if plus_col.button("+", key="unused_plus", use_container_width=True):
+            if plus_col.button("+", key="unused_plus", use_container_width=True, type="primary"):
                 st.session_state.unused_paper += 1
                 save_data(
                     client,
@@ -244,8 +302,7 @@ with left_area:
 
 # ---------------- Right side information panel ----------------
 with right_area:
-    panel = st.container(border=True)
-    with panel:
+    with st.container(border=True):
         st.markdown('<p class="panel-title">Information</p>', unsafe_allow_html=True)
 
         new_name = st.text_input("Student Name", value=st.session_state.student_name)
@@ -269,6 +326,6 @@ with right_area:
         total_paper = st.session_state.used_paper + st.session_state.unused_paper
         st.markdown('<p class="panel-label">Total Paper</p>', unsafe_allow_html=True)
         st.markdown(
-            f'<p class="total-number">{total_paper}</p>',
+            f'<div class="total-box"><p class="total-number">{total_paper}</p></div>',
             unsafe_allow_html=True,
         )
