@@ -68,16 +68,38 @@ python app.py
 
 Then open http://localhost:8501 in your browser.
 
-## 5. Deploy
+## 5. Deploy on Render
 
-Deploy anywhere that runs a Python/Flask app (Render, Railway, Fly.io, a VPS, etc.).
-Set `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` as environment variables on the host,
-and run the app with a production WSGI server, e.g.:
+This repo includes a `render.yaml` Blueprint (at the repo root) that points at this
+`Nila-Project-main/` folder, so Render can build and run the app straight from GitHub.
 
-```bash
-pip install gunicorn
-gunicorn app:app --bind 0.0.0.0:8501
-```
+### Option A — Blueprint (recommended)
+
+1. Push this repo to GitHub.
+2. In the Render dashboard, click **New +** → **Blueprint**, and select this repository.
+   Render reads `render.yaml` and creates a **paper-counter** web service automatically
+   (build command `pip install -r requirements.txt`, start command
+   `gunicorn app:app --bind 0.0.0.0:$PORT`).
+3. Before the first deploy finishes, open the service → **Environment** and set:
+   - `TURSO_DATABASE_URL`
+   - `TURSO_AUTH_TOKEN`
+
+   (These are left blank in `render.yaml` on purpose — never commit real tokens.)
+4. Click **Deploy**. Render gives you a public `https://paper-counter.onrender.com`-style URL.
+
+### Option B — Manual web service
+
+1. In the Render dashboard, click **New +** → **Web Service** and connect this repository.
+2. Set:
+   - **Root Directory**: `Nila-Project-main`
+   - **Runtime**: Python 3
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `gunicorn app:app --bind 0.0.0.0:$PORT`
+3. Under **Environment**, add `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN`.
+4. Click **Create Web Service**.
+
+Render sets `$PORT` itself, so the app does not need a fixed port in production — the
+`app.run(..., port=8501)` block at the bottom of `app.py` is only used for local runs.
 
 ---
 

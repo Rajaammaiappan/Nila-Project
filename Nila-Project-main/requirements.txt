@@ -1,3 +1,4 @@
 flask
 libsql-client
 python-dotenv
+gunicorn
