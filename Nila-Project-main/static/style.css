@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
+* { box-sizing: border-box; }
+
+html, body {
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    background-color: #FFFDF7;
+    color: #3A3A3A;
+    margin: 0;
+    padding: 0;
+}
+
+.app-wrap {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 24px 16px 40px 16px;
+}
+
+/* Rainbow title */
+.page-title {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 0.2rem 0 1.2rem 0;
+}
+.page-title .space { display: inline-block; width: 18px; }
+
+/* Cards */
+.card {
+    border-radius: 22px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    margin-bottom: 20px;
+    border: 2px solid transparent;
+}
+.card.kind-used   { background: #F5FBE8; border-color: #7CB342; }
+.card.kind-unused { background: #EAF3FF; border-color: #4A90D9; }
+
+.label-wrap { text-align: center; margin: 0.2rem 0 0.5rem 0; }
+.hl-used, .hl-unused {
+    font-size: 1.7rem;
+    padding: 2px 16px;
+    border-radius: 12px;
+    color: #222;
+}
+.hl-used   { background: #FFE066; }
+.hl-unused { background: #7EC8F3; }
+
+.card-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.mascot { font-size: 3.4rem; text-align: center; flex: 1 1 80px; }
+
+.counter-col { flex: 2 1 200px; text-align: center; }
+.big-number {
+    font-size: 4.2rem;
+    font-weight: 700;
+    line-height: 1;
+    margin: 0.2rem 0 0.5rem 0;
+}
+
+.btn-row { display: flex; gap: 10px; justify-content: center; }
+.btn-form { flex: 1; max-width: 100px; }
+
+/* Icon pile */
+.icon-row {
+    flex: 2 1 200px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    min-height: 40px;
+}
+.icon-row svg { width: 30px; height: 30px; }
+
+/* Section titles */
+.section-title {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #6A1B9A;
+    margin: 0.4rem 0 1rem 0;
+}
+
+/* Buttons (general) */
+button {
+    border-radius: 14px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 0.3rem 0;
+    width: 100%;
+    border: 1px solid rgba(49,51,63,0.2);
+    cursor: pointer;
+    font-family: inherit;
+}
+.plus-btn { background: #FF4B4B; color: #fff; border: none; }
+.plus-btn:hover { background: #E43D3D; }
+.minus-btn { background: #fff; }
+.minus-btn:hover { background: #f0f0f0; }
+
+/* Nav bar */
+.nav-bar {
+    background: #F8D3E6 !important;
+    border-color: #E79FC2 !important;
+    margin-top: 20px;
+    padding: 12px;
+}
+.nav-cols { display: flex; gap: 8px; }
+.nav-btn {
+    flex: 1;
+    text-align: center;
+    background: transparent;
+    border: none;
+    color: #6A1B9A;
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 8px 4px;
+    border-radius: 14px;
+    font-family: inherit;
+}
+.nav-btn:hover, .nav-btn.active { background: #F3BFD8; color: #4A148C; }
+
+/* Stats page */
+.chart-wrap { max-width: 420px; margin: 0 auto; }
+.totals-line { text-align: center; font-size: 1.3rem; }
+.info-box {
+    background: #EAF3FF;
+    border: 1px solid #4A90D9;
+    border-radius: 10px;
+    padding: 12px 16px;
+    text-align: center;
+}
+
+/* Settings page */
+.settings-form { display: flex; flex-direction: column; gap: 4px; max-width: 420px; margin: 0 auto; }
+.settings-form label { font-size: 1.1rem; margin-top: 10px; }
+.settings-form input[type="text"] {
+    font-family: inherit;
+    font-size: 1.1rem;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(49,51,63,0.3);
+}
+.save-btn { margin-top: 16px; background: #FF4B4B; color: #fff; border: none; max-width: 160px; align-self: center; }
+.save-btn:hover { background: #E43D3D; }
+.total-line { font-size: 1.3rem; margin-top: 1rem; text-align: center; }
+
+/* Error */
+.error-box {
+    background: #FFF0F0;
+    border: 1px solid #E53935;
+    color: #B00020;
+    border-radius: 10px;
+    padding: 14px 18px;
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="section-title">⚙️ Settings</div>
+
+<form method="post" class="settings-form">
+    <label for="student_name">Student Name</label>
+    <input type="text" id="student_name" name="student_name" value="{{ student_name }}">
+
+    <label for="machine_name">Machine Name</label>
+    <input type="text" id="machine_name" name="machine_name" value="{{ machine_name }}">
+
+    <button type="submit" class="save-btn">Save</button>
+</form>
+
+<p class="total-line">Total Paper: <b>{{ total }}</b></p>
+
+<script>
+document.querySelectorAll('.settings-form input[type="text"]').forEach(function (el) {
+    el.addEventListener('change', function () {
+        el.closest('form').submit();
+    });
+});
+</script>
+{% endblock %}

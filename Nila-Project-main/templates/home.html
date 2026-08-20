@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+{% for card in cards %}
+<div class="card kind-{{ card.kind }}">
+    <div class="label-wrap"><span class="{{ card.hl }}">{{ card.label }}</span></div>
+    <div class="card-body">
+        <div class="mascot">{{ card.mascot }}</div>
+        <div class="counter-col">
+            <div class="big-number" style="color:{{ card.num_color }}">{{ card.value }}</div>
+            <div class="btn-row">
+                <form method="post" action="{{ url_for('update', kind=card.kind, action='inc') }}" class="btn-form">
+                    <button type="submit" class="plus-btn">＋</button>
+                </form>
+                <form method="post" action="{{ url_for('update', kind=card.kind, action='dec') }}" class="btn-form">
+                    <button type="submit" class="minus-btn">－</button>
+                </form>
+            </div>
+        </div>
+        <div class="icon-row">{{ card.icons | safe }}</div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

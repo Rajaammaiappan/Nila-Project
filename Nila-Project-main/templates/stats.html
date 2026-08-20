@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="section-title">📊 Paper Breakdown</div>
+
+{% if total == 0 %}
+<div class="info-box">Add some paper on the Home page to see the pie chart.</div>
+{% else %}
+<div class="chart-wrap">
+    <canvas id="pieChart" height="340"></canvas>
+</div>
+<p class="totals-line">
+    Total paper: <b>{{ total }}</b> &nbsp;•&nbsp;
+    Used: <b style="color:#7CB342">{{ used }}</b> &nbsp;•&nbsp;
+    Unused: <b style="color:#4A90D9">{{ unused }}</b>
+</p>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script>
+new Chart(document.getElementById('pieChart'), {
+    type: 'pie',
+    data: {
+        labels: ['Used Paper', 'Unused Paper'],
+        datasets: [{
+            data: [{{ used }}, {{ unused }}],
+            backgroundColor: ['#7CB342', '#4A90D9'],
+            borderColor: '#FFFFFF',
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { position: 'bottom' } }
+    }
+});
+</script>
+{% endif %}
+{% endblock %}
